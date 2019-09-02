@@ -1,0 +1,60 @@
+\documentclass{article}
+\usepackage[paperwidth=10cm, paperheight=10cm, margin=0cm]{geometry}
+
+\usepackage{fontspec}
+
+\setsansfont[Kerning=Uppercase]{Montserrat}
+\let\familydefault\sfdefault
+
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{decorations.text}
+
+\raggedright
+
+\definecolor{ringColor}{HTML}{4391C6}
+
+\nopagecolor
+\usepackage{xparse}
+
+\NewDocumentCommand \regionallogo {O{30} m} {%
+  \fontsize{30}{30}\selectfont%
+  \begin{tikzpicture}%
+    \fill[fill=ringColor, even odd rule]
+      (0, 0) circle (5cm)
+      (0, 0) circle (3.4cm); 
+
+    \begin{scope}
+      \clip (0, 0) circle (3.34cm);
+      \node[anchor=center] at (0, 0) {\includegraphics[height=6.68cm]{build/bars.pdf}};
+    \end{scope}
+
+    \path[
+      postaction={
+        decorate,
+        decoration={
+          text along path,
+          text align=center,
+          text color=white,
+          raise=-0.4em,
+          text={|\bfseries|SCIENTISTS FOR FUTURE},
+        }
+      },
+    ] (225:4.2cm) arc [start angle=225, end angle=45, radius=4.2cm];
+    
+    \fontsize{#1}{#1}\selectfont
+    \path[
+      postaction={
+        decorate,
+        decoration={
+          text along path,
+          text align=center,
+          text color=white,
+          raise=-0.4em,
+          text={|\bfseries|#2},
+        }
+      },
+    ] (240:4.2cm) arc [start angle=240, end angle=390, radius=4.2cm];
+  \end{tikzpicture}%
+  \newpage%
+}
