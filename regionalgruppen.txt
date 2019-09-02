@@ -1,4 +1,4 @@
-Bremen
+Bremen / Bremerhaven
 Rostock
 Berlin / Potsdam
 Schwerin
@@ -10,7 +10,7 @@ Schleswig-Holstein
 Wilhelmshaven
 Hamburg
 Osnabrück
-Köln/Bonn
+Köln / Bonn
 Münster
 Paderborn
 Aachen
