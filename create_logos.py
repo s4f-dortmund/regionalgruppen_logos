@@ -54,7 +54,7 @@ def build_logo(regionalgruppe):
             filename + '.pdf',
             '--without-gui',
             '--export-dpi=600',
-            '--export-area-drawing',
+            '--export-area-page',
             '--export-png=' + filename + '.png',
         ], cwd=OUTDIR, stdout=sp.PIPE, check=True)
 

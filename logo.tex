@@ -16,10 +16,13 @@
 
 \nopagecolor
 \usepackage{xparse}
+\pagestyle{empty}
 
 \NewDocumentCommand \regionallogo {O{30} m} {%
   \fontsize{30}{30}\selectfont%
   \begin{tikzpicture}%
+    \fill[fill=white] (0, 0) circle (3.4cm);
+
     \fill[fill=ringColor, even odd rule]
       (0, 0) circle (5cm)
       (0, 0) circle (3.4cm); 
