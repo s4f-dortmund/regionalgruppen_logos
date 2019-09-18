@@ -1,53 +1,54 @@
-Bremen / Bremerhaven
-Rostock
-Berlin / Potsdam
-Schwerin
-Lüneburg
-Hannover
-Braunschweig
-Greifswald
-Schleswig-Holstein
-Wilhelmshaven
-Hamburg
-Osnabrück
-Köln / Bonn
-Münster
-Paderborn
 Aachen
-Rhein / Ruhr
-Dortmund
-Wuppertal
-Mainz / Wiesbaden
+Aalen
+Bayreuth
+Berlin / Potsdam
 Bingen
-Frankfurt
+Braunschweig
+Bremen / Bremerhaven
 Darmstadt
-Kassel
-Gießen
-Marburg
-Magdeburg
-Göttingen
-Leipzig
-Zittau
+Dortmund
 Dresden
-Stuttgart
-Karlsruhe
-Landau (Pfalz)
-Kaiserslautern
-Ulm
+Erlangen
+Frankfurt
 Freiburg
-Mannheim
+Gießen
+Greifswald
+Göttingen
+Hamburg
+Hannover
 Heidelberg
+Innsbruck
+Kaiserslautern
+Karlsruhe
+Kassel
+Koblenz
+Konstanz
+Köln / Bonn
+Landau (Pfalz)
+Leipzig
+Lüneburg
+Magdeburg
+Mainz / Wiesbaden
+Mannheim
+Marburg
+München
+Münster
+Osnabrück
+Paderborn
+Passau
+Pforzheim
+Ravensburg
+Regensburg
+Reutlingen
+Rhein / Ruhr
+Rostock
+Schleswig-Holstein
+Schwerin
+Stuttgart
 Traunstein
 Tübingen
-Reutlingen
-Regensburg
-Ravensburg
-Pforzheim
-Konstanz
-Aalen
-München
-Erlangen
+Ulm
+Wilhelmshaven
+Wuppertal
 Würzburg
-Passau
-Bayreuth
-Innsbruck
+Zittau
