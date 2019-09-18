@@ -1,11 +1,7 @@
 all: build/s4f-regionalgruppen-logos.zip
 
 
-build/bars.pdf: plot_bars.py | build
-	python plot_bars.py
-
-
-build/s4f_logo_dortmund.pdf: regionalgruppen.txt build/bars.pdf logo.tex create_logos.py
+build/s4f_logo_dortmund.pdf: regionalgruppen.txt logo.tex create_logos.py
 	python create_logos.py
 
 

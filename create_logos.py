@@ -66,6 +66,14 @@ def build_logo(regionalgruppe):
             '--export-plain-svg=' + filename + '.svg',
         ], cwd=OUTDIR, stdout=sp.PIPE, check=True)
 
+        sp.run([
+            'inkscape',
+            filename + '.pdf',
+            '--without-gui',
+            '--export-text-to-path',
+            '--export-pdf=' + filename + '.pdf',
+        ], cwd=OUTDIR, stdout=sp.PIPE, check=True)
+
     print(regionalgruppe, 'done')
 
 
