@@ -1,25 +1,13 @@
 all: build/s4f-regionalgruppen-logos.zip
 
 
-build/s4f_logo_dortmund.pdf: regionalgruppen.txt logo.tex create_logos.py
+s4f-regionalgruppen-logos/dortmund/s4f_logo_dortmund.pdf: regionalgruppen.txt logo.tex create_logos.py
 	python create_logos.py
 
 
-build/s4f-regionalgruppen-logos.zip: build/s4f_logo_dortmund.pdf
-	rm -rf build/s4f-regionalgruppen-logos
-	rm -rf build/s4f-regionalgruppen-logos.zip
-	mkdir build/s4f-regionalgruppen-logos
-	cp build/*.pdf build/s4f-regionalgruppen-logos
-	cp build/*.svg build/s4f-regionalgruppen-logos
-	cp build/*.png build/s4f-regionalgruppen-logos
-
-	cd build && zip -r s4f-regionalgruppen-logos.zip s4f-regionalgruppen-logos
-
-
-
-build:
-	mkdir -p build
+build/s4f-regionalgruppen-logos.zip: s4f-regionalgruppen-logos/dortmund/s4f_logo_dortmund.pdf
+	zip -r s4f-regionalgruppen-logos.zip s4f-regionalgruppen-logos
 
 clean:
-	rm -rf build
+	rm -rf s4f-regionalgruppen-logos s4f-regionalgruppen-logos.zip
 

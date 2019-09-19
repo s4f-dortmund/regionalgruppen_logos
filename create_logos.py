@@ -4,7 +4,7 @@ import tempfile
 from concurrent.futures import ThreadPoolExecutor
 
 
-OUTDIR = os.path.abspath('build')
+OUTDIR = os.path.abspath('s4f-regionalgruppen-logos')
 MAX_LENGTH = 14
 
 head = r'''
@@ -30,24 +30,31 @@ def build_logo(regionalgruppe):
         f.write(foot)
         f.flush()
 
-        filename = 's4f_logo_' + (
+        name = (
             regionalgruppe.lower()
             .replace('/', '-')
+            .replace('(', '_')
+            .replace(')', '')
             .replace(' ', '')
             .replace('ä', 'ae')
             .replace('ö', 'oe')
             .replace('ü', 'ue')
             .replace('ß', 'ss')
         )
+        filename = 's4f_logo_' + name
+        groupdir = os.path.join(OUTDIR, name)
+        os.makedirs(groupdir, exist_ok=True)
 
         sp.run([
             'lualatex',
-            '--output-directory=' + OUTDIR,
+            '--output-directory=' + groupdir,
             '--interaction=nonstopmode',
             '--halt-on-error',
             '--jobname=' + filename,
             f.name,
         ], stdout=sp.PIPE, check=True)
+        os.remove(os.path.join(groupdir, filename + '.log'))
+        os.remove(os.path.join(groupdir, filename + '.aux'))
 
         sp.run([
             'inkscape',
@@ -56,7 +63,7 @@ def build_logo(regionalgruppe):
             '--export-dpi=600',
             '--export-area-page',
             '--export-png=' + filename + '.png',
-        ], cwd=OUTDIR, stdout=sp.PIPE, check=True)
+        ], cwd=groupdir, stdout=sp.PIPE, check=True)
 
         sp.run([
             'inkscape',
@@ -64,7 +71,7 @@ def build_logo(regionalgruppe):
             '--without-gui',
             '--export-text-to-path',
             '--export-plain-svg=' + filename + '.svg',
-        ], cwd=OUTDIR, stdout=sp.PIPE, check=True)
+        ], cwd=groupdir, stdout=sp.PIPE, check=True)
 
         sp.run([
             'inkscape',
@@ -72,7 +79,7 @@ def build_logo(regionalgruppe):
             '--without-gui',
             '--export-text-to-path',
             '--export-pdf=' + filename + '.pdf',
-        ], cwd=OUTDIR, stdout=sp.PIPE, check=True)
+        ], cwd=groupdir, stdout=sp.PIPE, check=True)
 
     print(regionalgruppe, 'done')
 
