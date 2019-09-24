@@ -17,7 +17,27 @@ foot = r'''
 '''
 
 
+def sanitize_name(name):
+    '''remove or replace non-ascii and special characters from name'''
+    return (
+        name.lower()
+        .replace('/', '-')
+        .replace('(', '_')
+        .replace(')', '')
+        .replace(' ', '')
+        .replace('ä', 'ae')
+        .replace('ö', 'oe')
+        .replace('ü', 'ue')
+        .replace('ß', 'ss')
+    )
+
+
 def build_logo(regionalgruppe):
+    '''
+    Create the logos for a regionalgroup by running
+    lualatex on a temporary file and then converting the
+    resulting pdf to svg, png and pdf with text converted to path using inkscape.
+    '''
     with tempfile.NamedTemporaryFile(mode='w') as f:
         f.write(head)
 
@@ -30,17 +50,8 @@ def build_logo(regionalgruppe):
         f.write(foot)
         f.flush()
 
-        name = (
-            regionalgruppe.lower()
-            .replace('/', '-')
-            .replace('(', '_')
-            .replace(')', '')
-            .replace(' ', '')
-            .replace('ä', 'ae')
-            .replace('ö', 'oe')
-            .replace('ü', 'ue')
-            .replace('ß', 'ss')
-        )
+        name = sanitize_name(regionalgruppe)
+
         filename = 's4f_logo_' + name
         groupdir = os.path.join(OUTDIR, name)
         os.makedirs(groupdir, exist_ok=True)
