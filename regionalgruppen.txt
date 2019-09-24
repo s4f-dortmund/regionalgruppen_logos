@@ -14,6 +14,7 @@ Freiburg
 Gießen
 Greifswald
 Göttingen
+Halle
 Hamburg
 Hannover
 Heidelberg
