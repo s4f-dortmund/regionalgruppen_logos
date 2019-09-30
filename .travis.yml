@@ -16,9 +16,10 @@ install:
     # install montserrat font
     - curl -Lo $HOME/montserrat.zip https://fonts.google.com/download?family=Montserrat
     - mkdir -p $HOME/.local/share/fonts
-    - unzip -d $HOME/.local/share/fonts montserrat.zip
+    - unzip -d $HOME/.local/share/fonts $HOME/montserrat.zip
     - fc-cache
     - fc-list 'Montserrat'
+    - luaotfload-tool --update --force
 
 script:
   - make
