@@ -1,0 +1,25 @@
+sudo: required
+dist: trusty
+language: python
+
+python: 3.7
+
+install:
+    # install current version of inkscape
+    - sudo add-apt-repository ppa:inkscape.dev/stable -y
+    - sudo apt-get update -q
+    - sudo apt-get install inkscape curl -y
+    - inkscape --version
+    # install minimal version of TeX Live via automatic installation script
+    - pip install https://github.com/MaxNoe/texlive-batch-installation/archive/master.tar.gz
+    - install_texlive -t 2019 -s d -i 'luaotfload,xcolor,pgf,graphicx,fontspec' -p $HOME/.local/texlive -v
+    - export PATH="$HOME/.local/texlive/2019/bin/x86_64-linux:$PATH"
+    # install montserrat font
+    - curl -Lo $HOME/montserrat.zip https://fonts.google.com/download?family=Montserrat
+    - mkdir -p $HOME/.local/share/fonts
+    - unzip -d $HOME/.local/share/fonts montserrat.zip
+    - fc-cache
+    - fc-list 'Montserrat'
+
+script:
+  - make
