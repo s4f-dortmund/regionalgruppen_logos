@@ -1,12 +1,11 @@
 sudo: required
-dist: trusty
+dist: bionic
 language: python
 
 python: 3.7
 
 install:
     # install current version of inkscape
-    - sudo add-apt-repository ppa:inkscape.dev/stable -y
     - sudo apt-get update -q
     - sudo apt-get install inkscape curl -y
     - inkscape --version
