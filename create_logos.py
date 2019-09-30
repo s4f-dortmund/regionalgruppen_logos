@@ -2,6 +2,10 @@ import os
 import subprocess as sp
 import tempfile
 from concurrent.futures import ThreadPoolExecutor
+from argparse import ArgumentParser
+
+parser = ArgumentParser()
+parser.add_argument('-n', '--n-parallel', type=int, default=1)
 
 
 OUTDIR = os.path.abspath('s4f-regionalgruppen-logos')
@@ -92,13 +96,20 @@ def build_logo(regionalgruppe):
             '--export-pdf=' + filename + '.pdf',
         ], cwd=groupdir, stdout=sp.PIPE, check=True)
 
-    print(regionalgruppe, 'done')
-
 
 if __name__ == '__main__':
+    args = parser.parse_args()
+
     with open('regionalgruppen.txt') as f:
         regionalgruppen = [l.strip() for l in f]
 
     os.makedirs(OUTDIR, exist_ok=True)
-    with ThreadPoolExecutor(8) as pool:
-        pool.map(build_logo, regionalgruppen)
+
+    if args.n_parallel == 1:
+        for regionalgruppe in regionalgruppen:
+            print('Building', regionalgruppe)
+            build_logo(regionalgruppe)
+            print('Done')
+    else:
+        with ThreadPoolExecutor(args.n_parallel) as pool:
+            pool.map(build_logo, regionalgruppen)

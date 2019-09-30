@@ -1,4 +1,4 @@
-# S4F Regionalgruppen-Logos
+# S4F Regionalgruppen-Logos [![Build Status](https://travis-ci.com/s4f-dortmund/regionalgruppen_logos.svg?branch=master)](https://travis-ci.com/s4f-dortmund/regionalgruppen_logos)
 
 
 LaTeX-Dokument um einfach viele Regionalgruppen-Logos erstellen zu können
