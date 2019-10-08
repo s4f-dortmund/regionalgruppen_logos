@@ -1,13 +1,16 @@
 Aachen
 Aalen
+Altenburger Land
 Bayreuth
 Berlin / Potsdam
+Bielefeld
 Bingen
 Braunschweig
 Bremen / Bremerhaven
 Darmstadt
 Dortmund
 Dresden
+Emder / Leer
 Erlangen
 Frankfurt
 Freiburg
@@ -27,6 +30,7 @@ Konstanz
 Köln / Bonn
 Landau (Pfalz)
 Leipzig
+Lübeck
 Lüneburg
 Magdeburg
 Mainz / Wiesbaden
@@ -48,6 +52,7 @@ Schleswig-Holstein
 Schwerin
 Stuttgart
 Traunstein
+Trier
 Tübingen
 Ulm
 Wilhelmshaven
