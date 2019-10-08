@@ -24,7 +24,7 @@ install:
     - luaotfload-tool --update --force
 
 script:
-  - make
+  - dbus-run-session make
 
 
 deploy:
