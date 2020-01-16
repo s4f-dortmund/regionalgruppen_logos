@@ -29,6 +29,7 @@ Kassel
 Koblenz
 Konstanz
 Köln / Bonn
+Kreis Coesfeld
 Landau (Pfalz)
 Leipzig
 Lübeck
@@ -47,6 +48,7 @@ Ravensburg
 Regensburg
 Reutlingen
 Rhein / Ruhr
+Rosenheim
 Rostock
 Saarland
 Schleswig-Holstein
@@ -56,7 +58,7 @@ Traunstein
 Trier
 Tübingen
 Ulm
-Wilhelmshaven
+Wilhelmshaven-Friesland
 Wuppertal
 Würzburg
 Zittau
