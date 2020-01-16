@@ -1,7 +1,9 @@
 # S4F Regionalgruppen-Logos [![Build Status](https://travis-ci.com/s4f-dortmund/regionalgruppen_logos.svg?branch=master)](https://travis-ci.com/s4f-dortmund/regionalgruppen_logos)
 
 
-LaTeX-Dokument um einfach viele Regionalgruppen-Logos erstellen zu können
+LaTeX-Dokument um einfach viele Regionalgruppen-Logos erstellen zu können.
+Für neue releases werden die Logos automatisch auf travis gebaut. 
+Um ein neues Logo hinzuzufügen muss nur eine entsprechende Zeile in die Datei regionalgruppen.txt eingefügt werden.
 
 Benötigt werden:
 * make
