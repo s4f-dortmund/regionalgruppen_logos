@@ -2,7 +2,7 @@
 
 ## Neues Logo hinzufügen
 
-Um ein neues Logo hinzuzufügen ist es am einfachsten, über das GitHub Webinterface die Datei <regionalgruppen.txt> zu bearbeiten.
+Um ein neues Logo hinzuzufügen ist es am einfachsten, über das GitHub Webinterface die Datei [regionalgruppen.txt](regionalgruppen.txt) zu bearbeiten.
 Dafür einfach die Datei anklicken und dort auf das Bleistift Icon klicken. 
 Dann an der alphaetisch korrekten Stelle eine neue Zeile mit dem Text für die Regionalgruppe einfügen und danach
 den Button für einen neuen Pull Request drücken.
