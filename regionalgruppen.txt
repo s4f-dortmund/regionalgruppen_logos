@@ -33,6 +33,7 @@ Kreis Coesfeld
 Landau (Pfalz)
 Landshut
 Leipzig
+Linz
 Lübeck
 Lüneburg
 Magdeburg
@@ -41,6 +42,7 @@ Mannheim
 Marburg
 München
 Münster
+Oberösterreich
 Osnabrück
 Paderborn
 Passau
