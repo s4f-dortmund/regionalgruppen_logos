@@ -56,6 +56,9 @@ def call_latex(source_file, out_dir, out_name):
         '--jobname=' + out_name,
         source_file,
     ], stdout=sp.PIPE, check=True)
+    if not os.path.isfile(os.path.join(out_dir, out_name + '.pdf')):
+        raise OSError('Calling latex failed')
+
     os.remove(os.path.join(out_dir, out_name + '.log'))
     os.remove(os.path.join(out_dir, out_name + '.aux'))
 
