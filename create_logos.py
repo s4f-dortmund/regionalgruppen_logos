@@ -71,6 +71,8 @@ def pdf2png(stem, cwd=None, dpi=600):
         '--export-area-page',
         '-o', stem + '.png',
     ], cwd=cwd, stdout=sp.PIPE, check=True)
+    if not os.path.isfile(os.path.join(cwd, stem + '.png')):
+        raise OSError('Call to inkscape failed')
 
 
 def pdf2svg(stem, cwd=None):
@@ -81,6 +83,9 @@ def pdf2svg(stem, cwd=None):
         '-o', stem + '.svg',
     ], cwd=cwd, stdout=sp.PIPE, check=True)
 
+    if not os.path.isfile(os.path.join(cwd, stem + '.svg')):
+        raise OSError('Call to inkscape failed')
+
 
 def text_to_path(stem, cwd=None):
     sp.run([
@@ -89,6 +94,9 @@ def text_to_path(stem, cwd=None):
         '--export-text-to-path',
         '-o', stem + '.pdf',
     ], cwd=cwd, stdout=sp.PIPE, check=True)
+
+    if not os.path.isfile(os.path.join(cwd, stem + '.pdf')):
+        raise OSError('Call to inkscape failed')
 
 
 def create_all_formats(source_file, filename, groupdir, dpi=600):
