@@ -124,10 +124,10 @@ def build_banner(regionalgruppe, filename, groupdir, padding=False):
     with tempfile.NamedTemporaryFile(mode='w') as f:
         f.write(head_banner)
 
-        if padding:
-            f.write(rf'\regionalbanner*{{{regionalgruppe.upper()}}}')
-        else:
-            f.write(rf'\regionalbanner{{{regionalgruppe.upper()}}}')
+        p = '*' if padding else ''
+        size = min(30, 30 * MAX_LENGTH / len(regionalgruppe))
+
+        f.write(rf'\regionalbanner{p}[{size:.1f}]{{{regionalgruppe}}}{{{regionalgruppe.upper()}}}')
 
         f.write(foot)
         f.flush()
