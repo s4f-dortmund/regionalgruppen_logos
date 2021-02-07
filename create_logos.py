@@ -54,7 +54,7 @@ def call_latex(source_file, out_dir, out_name):
         '--halt-on-error',
         '--jobname=' + out_name,
         source_file,
-    ], check=True)
+    ], check=True, stdout=sp.PIPE)
     if not os.path.isfile(os.path.join(out_dir, out_name + '.pdf')):
         print(ret.stdout.decode('utf-8'))
         raise OSError('Calling latex failed')
