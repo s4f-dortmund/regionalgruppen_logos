@@ -1,10 +1,10 @@
 # S4F Regionalgruppen-Logos [![Build Status](https://travis-ci.com/s4f-dortmund/regionalgruppen_logos.svg?branch=master)](https://travis-ci.com/s4f-dortmund/regionalgruppen_logos)
 
-## Neues Logo hinzufügen
+## Neue Regionalgruppe hinzufügen
 
-Um ein neues Logo hinzuzufügen ist es am einfachsten, über das GitHub Webinterface die Datei [regionalgruppen.txt](regionalgruppen.txt) zu bearbeiten.
+Um eine neue Regionalgruppe hinzuzufügen ist es am einfachsten, über das GitHub Webinterface die Datei [regionalgruppen.txt](regionalgruppen.txt) zu bearbeiten.
 Dafür einfach die Datei anklicken und dort auf das Bleistift Icon klicken.
-Dann an der alphaetisch korrekten Stelle eine neue Zeile mit dem Text für die Regionalgruppe einfügen und danach
+Dann an der alphabetisch korrekten Stelle eine neue Zeile mit dem Text für die Regionalgruppe einfügen und danach
 den Button für einen neuen Pull Request drücken.
 
 ## Hintergrund
