@@ -7,14 +7,20 @@
 \usepackage{xcolor}
 \usepackage{tikz}
 \usetikzlibrary{decorations.text}
+\pgfdeclarelayer{back}
+\pgfsetlayers{back,main}
+
+\usepackage{xifthen}
+\usepackage{calc}
 
 \raggedright
+\usepackage{xparse}
 
 \definecolor{darkBlue}{RGB}{15, 74, 144}
 \definecolor{lightBlue}{RGB}{69, 144, 197}
 
+
 \nopagecolor
-\usepackage{xparse}
 \pagestyle{empty}
 
 \NewDocumentCommand \regionallogo {O{30} m} {%
@@ -59,41 +65,51 @@
   \end{tikzpicture}%
 }
 
-\NewDocumentCommand \regionalbanner {s m s} {
-  \fontsize{18}{18}\selectfont\bfseries 
-  \begin{tikzpicture}
+\newlength\namewidth
+
+\NewDocumentCommand \regionalbanner {s m} {{%
+  \fontsize{18}{18}\selectfont\bfseries%
+  \newcommand\groupname{%
+    \fontsize{24}{24}\selectfont\bfseries #2%
+  }%
+  \setlength{\namewidth}{\widthof{\groupname}}%
+  \newcommand\sff{%
+    Scientists \textcolor{lightBlue}{for} Future%
+  }
+
+  \begin{tikzpicture}[
+      inner sep=0.2cm, outer sep=0,
+    ]%
+    % set size of banner
     \useasboundingbox (0,0) rectangle (14.3, 2.5);
-    \fill[black!10] (0,0) rectangle (14.3, 2.5);
     \clip (0,0) rectangle (14.3, 2.5);
 
-    \coordinate (logo_center) at (1.2, 1.3);
-    \IfBooleanTF{#3}{
+    % alignment of group name depending on its size
+    % either aligned with Future or if too broad, right aligned
+    \ifthenelse{\lengthtest{\namewidth > 7.2cm}}{
       \coordinate (name) at (14.3, 0.1);
       \tikzset{groupname/.style={anchor=south east, text=lightBlue, inner sep=0.2cm, outer sep=0}};
     }{
       \coordinate (name) at (6.87, 0.1);
       \tikzset{groupname/.style={anchor=south west, text=lightBlue, inner sep=0.2cm, outer sep=0}};
     }
-    \IfBooleanT{#1}{
-      \fill[white] (logo_center) circle (1.2);
-    }
 
-    \node[inner sep=0, outer sep=0] (logo) at (logo_center) {\resizebox{2cm}{2cm}{\regionallogo{#2}}};
+    \tikzset{padding/.style={fill=white, rounded corners}}
 
-    \IfBooleanT{#1}{
-      \node[fill=white, groupname, rounded corners, ] at (name) {%
-        \phantom{\fontsize{24}{24}\selectfont\bfseries #2}%
-      };
-      \node[anchor=west, xshift=0.3em, yshift=0.5ex, fill=white, text=darkBlue, inner sep=0.2cm, rounded corners, outer sep=0] (s4) at (logo.east) {%
-        \phantom{Scientists \textcolor{lightBlue}{for} Future}%
-      };
-    };
-
-    \node[anchor=west, xshift=0.3em, yshift=0.5ex, text=darkBlue, inner sep=0.2cm, outer sep=0] (s4) at (logo.east) {%
-      \fontsize{18}{18}\selectfont\bfseries Scientists \textcolor{lightBlue}{for} Future%
-    };
+    \node[inner sep=0] (logo) at (1.2, 1.3) {\resizebox{2cm}{2cm}{\regionallogo{#2}}};
+    \node[anchor=west, xshift=0.3em, yshift=0.5ex, text=darkBlue] (s4) at (logo.east) {\sff};
     \node[groupname] at (name) {%
       \fontsize{24}{24}\selectfont\bfseries #2%
     };
-  \end{tikzpicture}
-}
+
+    % draw white padding if * is given
+    \IfBooleanT{#1}{
+      \begin{pgfonlayer}{back}
+        \fill[white] (logo.center) circle (1.2);
+        \node[groupname, padding] at (name) {\phantom{\groupname}};
+
+        \node[padding, anchor=west, xshift=0.3em, yshift=0.5ex] (s4) at (logo.east) {\phantom{\sff}};
+      \end{pgfonlayer}
+    }
+  \end{tikzpicture}%
+}}
