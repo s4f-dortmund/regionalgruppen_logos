@@ -14,7 +14,7 @@ install:
     - inkscape --version
     # install minimal version of TeX Live via automatic installation script
     - pip install https://github.com/MaxNoe/texlive-batch-installation/archive/master.tar.gz
-    - install_texlive -t 2020 -s d -i 'luaotfload,xcolor,pgf,graphicx,fontspec,xifthen,tools,ifmtarg' -p $HOME/.local/texlive -v
+    - install_texlive -t 2020 -s d -i 'standalone,luaotfload,xcolor,pgf,graphicx,fontspec,xifthen,tools,ifmtarg' -p $HOME/.local/texlive -v
     - export PATH="$HOME/.local/texlive/2020/bin/x86_64-linux:$PATH"
     # install montserrat font
     - curl -Lo $HOME/montserrat.zip https://fonts.google.com/download?family=Montserrat
