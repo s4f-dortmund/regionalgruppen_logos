@@ -6,6 +6,7 @@ python: 3.7
 
 install:
     # install current version of inkscape
+    - sudo add-apt-repository ppa:inkscape.dev/stable
     - sudo apt-get update -q
     # curl for download, dbus-x11 fixes a lot of warnings from inkscape that
     # cluttered the log
