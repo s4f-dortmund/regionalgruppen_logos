@@ -48,15 +48,16 @@ def sanitize_name(name):
 
 
 def call_latex(source_file, out_dir, out_name):
-    sp.run([
+    ret = sp.run([
         'lualatex',
         '--output-directory=' + out_dir,
         '--interaction=nonstopmode',
         '--halt-on-error',
         '--jobname=' + out_name,
         source_file,
-    ], stdout=sp.PIPE, check=True)
+    ], check=True)
     if not os.path.isfile(os.path.join(out_dir, out_name + '.pdf')):
+        print(ret.stdout.decode('utf-8'))
         raise OSError('Calling latex failed')
 
     os.remove(os.path.join(out_dir, out_name + '.log'))
