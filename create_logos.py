@@ -20,8 +20,7 @@ head_logo = r'''
 '''
 
 head_banner = r'''
-\documentclass{minimal}
-\usepackage[paperwidth=14.3cm, paperheight=2.5cm, margin=0cm]{geometry}
+\documentclass[margin=0pt]{standalone}
 
 \input{logo.tex}
 \begin{document}

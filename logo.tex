@@ -80,19 +80,14 @@
   \begin{tikzpicture}[
       inner sep=0.2cm, outer sep=0,
     ]%
-    % set size of banner
-    \useasboundingbox (0,0) rectangle (14.3, 2.5);
-    \clip (0,0) rectangle (14.3, 2.5);
 
     % alignment of group name depending on its size
     % either aligned with Future or if too broad, right aligned
-    \ifthenelse{\lengthtest{\namewidth > 7.2cm}}{
-      \coordinate (name) at (14.3, 0.1);
-      \tikzset{groupname/.style={anchor=south east, text=lightBlue, inner sep=0.2cm, outer sep=0}};
-    }{
-      \coordinate (name) at (6.87, 0.1);
-      \tikzset{groupname/.style={anchor=south west, text=lightBlue, inner sep=0.2cm, outer sep=0}};
-    }
+    \coordinate (name) at (6.87, 0.1);
+    \tikzset{groupname/.style={anchor=south west, text=lightBlue, inner sep=0.2cm, outer sep=0}};
+    \useasboundingbox (0,0) rectangle (6.87cm + \namewidth + 0.4cm, 2.5cm);
+    \clip (0,0) rectangle (6.87cm + \namewidth + 0.4cm, 2.5cm);
+
 
     \tikzset{padding/.style={fill=white, rounded corners}}
 
