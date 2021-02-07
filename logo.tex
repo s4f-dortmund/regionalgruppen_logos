@@ -1,29 +1,33 @@
-\documentclass{article}
-\usepackage[paperwidth=10cm, paperheight=10cm, margin=0cm]{geometry}
-
 \usepackage{fontspec}
 
-\setsansfont[Kerning=Uppercase]{Montserrat}
+\setsansfont{Montserrat}
+\newfontfamily\caps{Montserrat}[Kerning=Uppercase]
 \let\familydefault\sfdefault
 
 \usepackage{xcolor}
 \usepackage{tikz}
 \usetikzlibrary{decorations.text}
+\pgfdeclarelayer{back}
+\pgfsetlayers{back,main}
+
+\usepackage{xifthen}
+\usepackage{calc}
 
 \raggedright
+\usepackage{xparse}
 
-\definecolor{ringColor}{RGB}{15, 74, 144}
+\definecolor{darkBlue}{RGB}{15, 74, 144}
+\definecolor{lightBlue}{RGB}{69, 144, 197}
+
 
 \nopagecolor
-\usepackage{xparse}
 \pagestyle{empty}
 
 \NewDocumentCommand \regionallogo {O{30} m} {%
   \fontsize{30}{30}\selectfont%
   \begin{tikzpicture}%
     \fill[fill=white] (0, 0) circle (3.4cm);
-
-    \fill[fill=ringColor, even odd rule]
+    \fill[fill=darkBlue, even odd rule]
       (0, 0) circle (5cm)
       (0, 0) circle (3.4cm); 
 
@@ -40,7 +44,7 @@
           text align=center,
           text color=white,
           raise=-0.4em,
-          text={|\bfseries|SCIENTISTS FOR FUTURE},
+          text={|\bfseries\caps|SCIENTISTS FOR FUTURE},
         }
       },
     ] (225:4.2cm) arc [start angle=225, end angle=45, radius=4.2cm];
@@ -54,10 +58,58 @@
           text align=center,
           text color=white,
           raise=-0.4em,
-          text={|\bfseries|#2},
+          text={|\bfseries\caps|#2},
         }
       },
     ] (240:4.2cm) arc [start angle=240, end angle=390, radius=4.2cm];
   \end{tikzpicture}%
-  \newpage%
 }
+
+\newlength\namewidth
+
+\NewDocumentCommand \regionalbanner {s O{30} m m} {{%
+  \fontsize{18}{18}\selectfont\bfseries%
+  \newcommand\groupname{%
+    \fontsize{24}{24}\selectfont\bfseries #3%
+  }%
+  \setlength{\namewidth}{\widthof{\groupname}}%
+  \newcommand\sff{%
+    Scientists \textcolor{lightBlue}{for} Future%
+  }
+
+  \begin{tikzpicture}[
+      inner sep=0.2cm, outer sep=0,
+    ]%
+    % set size of banner
+    \useasboundingbox (0,0) rectangle (14.3, 2.5);
+    \clip (0,0) rectangle (14.3, 2.5);
+
+    % alignment of group name depending on its size
+    % either aligned with Future or if too broad, right aligned
+    \ifthenelse{\lengthtest{\namewidth > 7.2cm}}{
+      \coordinate (name) at (14.3, 0.1);
+      \tikzset{groupname/.style={anchor=south east, text=lightBlue, inner sep=0.2cm, outer sep=0}};
+    }{
+      \coordinate (name) at (6.87, 0.1);
+      \tikzset{groupname/.style={anchor=south west, text=lightBlue, inner sep=0.2cm, outer sep=0}};
+    }
+
+    \tikzset{padding/.style={fill=white, rounded corners}}
+
+    \node[inner sep=0] (logo) at (1.2, 1.3) {\resizebox{2cm}{2cm}{%
+      \regionallogo[#2]{#4}
+    }};
+    \node[anchor=west, xshift=0.3em, yshift=0.5ex, text=darkBlue] (s4) at (logo.east) {\sff};
+    \node[groupname] at (name) {\groupname};
+
+    % draw white padding if * is given
+    \IfBooleanT{#1}{
+      \begin{pgfonlayer}{back}
+        \fill[white] (logo.center) circle (1.2);
+        \node[groupname, padding] at (name) {\phantom{\groupname}};
+
+        \node[padding, anchor=west, xshift=0.3em, yshift=0.5ex] (s4) at (logo.east) {\phantom{\sff}};
+      \end{pgfonlayer}
+    }
+  \end{tikzpicture}%
+}}
