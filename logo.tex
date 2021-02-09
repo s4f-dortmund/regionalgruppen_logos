@@ -29,7 +29,7 @@
     \fill[fill=white] (0, 0) circle (3.4cm);
     \fill[fill=darkBlue, even odd rule]
       (0, 0) circle (5cm)
-      (0, 0) circle (3.4cm); 
+      (0, 0) circle (3.4cm);
 
     \begin{scope}
       \clip (0, 0) circle (3.34cm);
@@ -48,7 +48,7 @@
         }
       },
     ] (225:4.2cm) arc [start angle=225, end angle=45, radius=4.2cm];
-    
+
     \fontsize{#1}{#1}\selectfont
     \path[
       postaction={
@@ -91,9 +91,9 @@
 
     \tikzset{padding/.style={fill=white, rounded corners}}
 
-    \node[inner sep=0] (logo) at (1.2, 1.3) {\resizebox{2cm}{2cm}{%
-      \regionallogo[#2]{#4}
-    }};
+    \node[inner sep=0] (logo) at (1.2, 1.3) {%
+      \resizebox{2cm}{2cm}{\regionallogo[#2]{#4}}%
+    };
     \node[anchor=west, xshift=0.3em, yshift=0.5ex, text=darkBlue] (s4) at (logo.east) {\sff};
     \node[groupname] at (name) {\groupname};
 
