@@ -30,6 +30,7 @@ Hessen
 Innsbruck
 Kaiserslautern
 Karlsruhe
+Kärnten
 Kassel
 Kempten
 Koblenz
@@ -65,6 +66,7 @@ Saarland
 Salzburg
 Schleswig-Holstein
 Schwerin
+Steiermark
 Stuttgart
 Traunstein
 Trier
