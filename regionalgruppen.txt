@@ -1,7 +1,8 @@
+AT-Ost
+AWIs4Future
 Aachen
 Aalen
 Altenburger Land
-AWIs4Future
 Bayern
 Bayreuth
 Berlin / Potsdam
@@ -10,6 +11,7 @@ Bingen
 Bochum
 Braunschweig
 Bremen / Bremerhaven
+Burgenland
 Darmstadt
 Dortmund
 Dresden
@@ -32,8 +34,8 @@ Kassel
 Kempten
 Koblenz
 Konstanz
-Köln / Bonn
 Kreis Coesfeld
+Köln / Bonn
 Landau (Pfalz)
 Landshut
 Leipzig
@@ -46,8 +48,8 @@ Mannheim
 Marburg
 München
 Münster
+Niederösterreich
 Oberösterreich
-Österreich
 Osnabrück
 Paderborn
 Passau
@@ -67,7 +69,9 @@ Traunstein
 Trier
 Tübingen
 Ulm
+Wien
 Wilhelmshaven-Friesland
 Wuppertal
 Würzburg
 Zittau
+Österreich
