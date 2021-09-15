@@ -27,7 +27,7 @@ jobs:
 
           # install texlive
           pip install https://github.com/MaxNoe/texlive-batch-installation/archive/master.tar.gz
-          install_texlive -t $TEXLIVE_VERSION -s d -i 'luatex85,xkeyval,standalone,luaotfload,xcolor,pgf,graphicx,fontspec,xifthen,tools,ifmtarg' -p $HOME/.local/texlive -v
+          install_texlive -t $TEXLIVE_VERSION -s d --package-file tex-packages.txt -p $HOME/.local/texlive -v
           echo "$HOME/.local/texlive/$TEXLIVE_VERSION/bin/x86_64-linux" >> $GITHUB_PATH
 
       - name: Install Montserrat Font
