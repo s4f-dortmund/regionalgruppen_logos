@@ -39,6 +39,7 @@ jobs:
           fc-cache
           fc-list 'Montserrat'
           luaotfload-tool --update --force
+          luaotfload-tool --find='Montserrat'
 
       - name: Build
         run: |
