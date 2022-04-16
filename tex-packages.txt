@@ -6,6 +6,7 @@ ifmtarg
 infwarerr
 latex
 latex-bin
+ltxcmds
 luacode
 lualatex-math
 luaotfload
@@ -13,10 +14,10 @@ luatex
 luatex85
 luatex85
 luatexbase
+montserrat
 pgf
 standalone
 tools
 xcolor
 xifthen
 xkeyval
-ltxcmds
