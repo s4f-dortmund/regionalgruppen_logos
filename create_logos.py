@@ -166,6 +166,7 @@ def build_all(regionalgruppe):
 
 if __name__ == '__main__':
     args = parser.parse_args()
+    print(sp.check_output(['which', 'lualatex']))
 
     with open('regionalgruppen.txt') as f:
         regionalgruppen = [l.strip() for l in f]

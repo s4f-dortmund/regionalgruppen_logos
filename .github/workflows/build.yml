@@ -47,6 +47,7 @@ jobs:
 
       - name: Build
         run: |
+          which lualatex
           dbus-run-session python create_logos.py -n 2
           zip -r ./s4f_all_logos.zip ./s4f_all_logos -x '*.zip'
           mv s4f_all_logos.zip s4f_all_logos
