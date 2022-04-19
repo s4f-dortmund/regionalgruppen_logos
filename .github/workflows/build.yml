@@ -23,7 +23,7 @@ jobs:
           sudo apt-get update -q
           # curl for download, dbus-x11 fixes a lot of warnings from inkscape that
           # cluttered the log
-          sudo apt-get install inkscape curl dbus-x11 -y
+          sudo apt-get install inkscape curl dbus-x11 lcdf-typetools -y
           inkscape --version
 
           # install texlive
@@ -37,9 +37,13 @@ jobs:
           mkdir -p $HOME/.local/share/fonts
           unzip -d $HOME/.local/share/fonts $HOME/montserrat.zip
           fc-cache
+          echo "fc-list"
           fc-list 'Montserrat'
           luaotfload-tool --update --force
+          echo "luaotfload --find='Montserrat'"
           luaotfload-tool --find='Montserrat'
+          echo "otfinfo -a $HOME/.local/share/fonts/static/Montserrat-Regular.ttf"
+          otfinfo -a $HOME/.local/share/fonts/static/Montserrat-Regular.ttf
 
       - name: Build
         run: |
