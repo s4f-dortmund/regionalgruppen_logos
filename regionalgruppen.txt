@@ -1,6 +1,7 @@
 Aachen
 Aalen
 Altenburger Land
+AT-Ost
 AWIs4Future
 Bayern
 Bayreuth
@@ -10,6 +11,7 @@ Bingen
 Bochum
 Braunschweig
 Bremen / Bremerhaven
+Burgenland
 Darmstadt
 Dortmund
 Dresden
@@ -18,21 +20,23 @@ Erlangen
 Frankfurt am Main
 Freiburg
 Gießen
-Greifswald
 Göttingen
+Greifswald
 Halle
 Hamburg
 Hannover
+Harz
 Heidelberg
 Hessen
 Innsbruck
 Kaiserslautern
 Karlsruhe
+Kärnten
 Kassel
 Kempten
 Koblenz
-Konstanz
 Köln / Bonn
+Konstanz
 Kreis Coesfeld
 Landau (Pfalz)
 Landshut
@@ -46,9 +50,11 @@ Mannheim
 Marburg
 München
 Münster
+Niederösterreich
 Oberösterreich
-Österreich
+Oldenburg
 Osnabrück
+Österreich
 Paderborn
 Passau
 Pforzheim
@@ -56,17 +62,21 @@ Ravensburg
 Regensburg
 Reutlingen
 Rhein / Ruhr
+Rheinland-Pfalz
 Rosenheim
 Rostock
 Saarland
 Salzburg
 Schleswig-Holstein
 Schwerin
+Steiermark
 Stuttgart
 Traunstein
 Trier
 Tübingen
 Ulm
+Wien
+Wien-NÖ-Bgld
 Wilhelmshaven-Friesland
 Wuppertal
 Würzburg

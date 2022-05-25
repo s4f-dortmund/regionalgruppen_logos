@@ -1,7 +1,7 @@
 import os
 import subprocess as sp
 import tempfile
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from argparse import ArgumentParser
 
 parser = ArgumentParser()
@@ -54,7 +54,8 @@ def call_latex(source_file, out_dir, out_name):
         '--halt-on-error',
         '--jobname=' + out_name,
         source_file,
-    ], stdout=sp.PIPE)
+    ], stdout=sp.PIPE, stderr=sp.STDOUT)
+
     if ret.returncode != 0 or not os.path.isfile(os.path.join(out_dir, out_name + '.pdf')):
         print(ret.stdout.decode('utf-8'))
         raise OSError('Calling latex failed')
@@ -70,7 +71,7 @@ def pdf2png(stem, cwd=None, dpi=600):
         f'--export-dpi={dpi}',
         '--export-area-page',
         '-o', stem + '.png',
-    ], cwd=cwd, stdout=sp.PIPE, check=True)
+    ], cwd=cwd, stdout=sp.PIPE, stderr=sp.STDOUT, check=True)
     if not os.path.isfile(os.path.join(cwd, stem + '.png')):
         raise OSError('Call to inkscape failed')
 
@@ -81,7 +82,7 @@ def pdf2svg(stem, cwd=None):
         stem + '.pdf',
         '--export-text-to-path',
         '-o', stem + '.svg',
-    ], cwd=cwd, stdout=sp.PIPE, check=True)
+    ], cwd=cwd, stdout=sp.PIPE, stderr=sp.STDOUT, check=True)
 
     if not os.path.isfile(os.path.join(cwd, stem + '.svg')):
         raise OSError('Call to inkscape failed')
@@ -93,7 +94,7 @@ def text_to_path(stem, cwd=None):
         stem + '.pdf',
         '--export-text-to-path',
         '-o', stem + '.pdf',
-    ], cwd=cwd, stdout=sp.PIPE, check=True)
+    ], cwd=cwd, stdout=sp.PIPE, stderr=sp.STDOUT, check=True)
 
     if not os.path.isfile(os.path.join(cwd, stem + '.pdf')):
         raise OSError('Call to inkscape failed')
@@ -158,7 +159,9 @@ def build_all(regionalgruppe):
     build_banner(regionalgruppe, 's4f_banner_padding_' + safe_name, groupdir, padding=True)
 
     zip_name = f's4f_logos_{safe_name}.zip'
-    sp.run(['zip', '-FSr', zip_name, os.path.basename(groupdir)], cwd=OUTDIR)
+    sp.run(['zip', '-FSr', zip_name, os.path.basename(groupdir)], check=True, stdout=sp.PIPE, stderr=sp.STDOUT, cwd=OUTDIR)
+
+    return regionalgruppe
 
 
 if __name__ == '__main__':
@@ -176,4 +179,6 @@ if __name__ == '__main__':
             print('Done')
     else:
         with ThreadPoolExecutor(args.n_parallel) as pool:
-            pool.map(build_all, regionalgruppen)
+            jobs = [pool.submit(build_all, gruppe) for gruppe in regionalgruppen]
+            for job in as_completed(jobs):
+                print(job.result())
