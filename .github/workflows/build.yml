@@ -31,16 +31,6 @@ jobs:
           install_texlive -t $TEXLIVE_VERSION --collection='-a' --package-file tex-packages.txt -p $HOME/.local/texlive -v
           echo "$HOME/.local/texlive/$TEXLIVE_VERSION/bin/x86_64-linux" >> $GITHUB_PATH
 
-      - name: Install Montserrat Font
-        run: |
-          curl -Lo $HOME/montserrat.zip https://fonts.google.com/download?family=Montserrat
-          mkdir -p $HOME/.local/share/fonts
-          unzip -d $HOME/.local/share/fonts $HOME/montserrat.zip
-          fc-cache
-          fc-list 'Montserrat'
-          luaotfload-tool --update --force
-          luaotfload-tool --find='Montserrat'
-
       - name: Build
         run: |
           dbus-run-session python create_logos.py -n 2
