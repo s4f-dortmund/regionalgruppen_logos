@@ -22,11 +22,11 @@ Ein python script erzeugt für jede Regionalgruppe die entsprechende LaTeX Datei
 pdf, png und svg Logos zu erstellen.
 Am Ende wird alles in eine Zip datei pro Regionalgruppe und eine für alles zusammen gepackt.
 
-Für neue releases werden die Logos automatisch auf travis gebaut.
+Für neue releases werden die Logos automatisch mit Github Actions gebaut.
 Um ein neues Logo hinzuzufügen muss nur eine entsprechende Zeile in die Datei regionalgruppen.txt eingefügt werden.
 
 Benötigt werden:
-* make
+
 * python ≥ 3.6
 * inkscape <https://inkscape.org/de/>
 * TeXLive <https://www.tug.org/texlive/>
