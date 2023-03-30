@@ -39,6 +39,7 @@ jobs:
       - name: Build Page
         # only run on main
         if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
           zip -r ./s4f_all_logos.zip ./s4f_all_logos -x '*.zip'
           mv s4f_all_logos.zip s4f_all_logos
           find s4f_all_logos -name "*.zip" -exec mv {} build \;
