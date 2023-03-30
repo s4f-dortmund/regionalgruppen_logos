@@ -1,4 +1,4 @@
-# S4F Regionalgruppen-Logos [![Build Status](https://travis-ci.com/s4f-dortmund/regionalgruppen_logos.svg?branch=master)](https://travis-ci.com/s4f-dortmund/regionalgruppen_logos)
+# S4F Regionalgruppen-Logos [![build](https://github.com/s4f-dortmund/regionalgruppen_logos/actions/workflows/build.yml/badge.svg)](https://github.com/s4f-dortmund/regionalgruppen_logos/actions/workflows/build.yml)
 
 Die aktuellen Logos gibt es als Download im [Release Bereich](https://github.com/s4f-dortmund/regionalgruppen_logos/releases).
 
