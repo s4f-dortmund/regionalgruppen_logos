@@ -1,3 +1,4 @@
+from pathlib import Path
 import os
 import subprocess as sp
 import tempfile
@@ -8,7 +9,7 @@ parser = ArgumentParser()
 parser.add_argument('-n', '--n-parallel', type=int, default=1)
 
 
-OUTDIR = os.path.abspath('s4f_all_logos')
+OUTDIR = Path('s4f_all_logos').absolute()
 MAX_LENGTH = 14
 
 head_logo = r'''

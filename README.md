@@ -1,6 +1,6 @@
 # S4F Regionalgruppen-Logos [![build](https://github.com/s4f-dortmund/regionalgruppen_logos/actions/workflows/build.yml/badge.svg)](https://github.com/s4f-dortmund/regionalgruppen_logos/actions/workflows/build.yml)
 
-Die aktuellen Logos gibt es als Download im [Release Bereich](https://github.com/s4f-dortmund/regionalgruppen_logos/releases).
+Die aktuellen Logos gibt es als [hier zum Download](https://s4f-dortmund.github.io/regionalgruppen_logos).
 
 ## Neue Regionalgruppe hinzufügen
 
@@ -22,7 +22,7 @@ Ein python script erzeugt für jede Regionalgruppe die entsprechende LaTeX Datei
 pdf, png und svg Logos zu erstellen.
 Am Ende wird alles in eine Zip datei pro Regionalgruppe und eine für alles zusammen gepackt.
 
-Für neue releases werden die Logos automatisch mit Github Actions gebaut.
+Die Logos werden automatisch mit Github Actions gebaut und auf Github Pages hochgeladen.
 Um ein neues Logo hinzuzufügen muss nur eine entsprechende Zeile in die Datei regionalgruppen.txt eingefügt werden.
 
 Benötigt werden:
