@@ -34,15 +34,16 @@ jobs:
       - name: Build
         run: |
           dbus-run-session python create_logos.py -n 2
-          python create_page.py
 
       - name: Build Page
         # only run on main
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
+          python create_page.py
           zip -r ./s4f_all_logos.zip ./s4f_all_logos -x '*.zip'
           mv s4f_all_logos.zip s4f_all_logos
           find s4f_all_logos -name "*.zip" -exec mv {} build \;
+          touch build/.nojekyll
 
       - name: Deploy to gihub pages
         # only run on main
