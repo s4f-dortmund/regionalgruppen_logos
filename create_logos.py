@@ -180,7 +180,7 @@ if __name__ == '__main__':
     with open('fachgruppen.txt') as f:
         fachgruppen = [l.strip() for l in f]
 
-    all_groups = [
+    all_categories = [
         regionalgruppen,
         bundeslaender,
         laender,
@@ -196,19 +196,19 @@ if __name__ == '__main__':
 
     os.makedirs(OUTDIR, exist_ok=True)
 
-    for ngroup in range(len(all_groups)):
-        groups = all_groups[ngroup]
+    for ncat in range(len(all_categories)):
+        groups = all_categories[ncat]
 
-        outdir_group = os.path.join(OUTDIR, subfolders[ngroup])
-        os.makedirs(outdir_group, exist_ok=True)
+        outdir_cat = os.path.join(OUTDIR, subfolders[ncat])
+        os.makedirs(outdir_cat, exist_ok=True)
 
         if args.n_parallel == 1:
             for group in groups:
                 print('Building', group)
-                build_all(group, outdir_group)
+                build_all(group, outdir_cat)
                 print('Done')
         else:
             with ThreadPoolExecutor(args.n_parallel) as pool:
-                jobs = [pool.submit(build_all, outdir_group]) for group in groups]
+                jobs = [pool.submit(build_all, outdir_cat) for group in groups]
                 for job in as_completed(jobs):
                     print(job.result())
