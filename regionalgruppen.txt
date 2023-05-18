@@ -27,7 +27,6 @@ Hamburg
 Hannover
 Harz
 Heidelberg
-Hessen
 Innsbruck
 Kaiserslautern
 Karlsruhe
@@ -54,7 +53,6 @@ Niederösterreich
 Oberösterreich
 Oldenburg
 Osnabrück
-Österreich
 Paderborn
 Passau
 Pforzheim
@@ -62,12 +60,10 @@ Ravensburg
 Regensburg
 Reutlingen
 Rhein / Ruhr
-Rheinland-Pfalz
 Rosenheim
 Rostock
 Saarland
 Salzburg
-Schleswig-Holstein
 Schwerin
 Steiermark
 Stuttgart
