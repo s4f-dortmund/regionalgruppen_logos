@@ -3,6 +3,7 @@ Aalen
 Altenburger Land
 AT-Ost
 AWIs4Future
+Bamberg
 Bayern
 Bayreuth
 Berlin / Potsdam
@@ -11,6 +12,7 @@ Bingen
 Bochum
 Braunschweig
 Bremen / Bremerhaven
+Bremen
 Burgenland
 Darmstadt
 Dortmund
@@ -18,6 +20,7 @@ Dresden
 Emden / Leer
 Erlangen
 Frankfurt am Main
+Fraunhofer
 Freiburg
 Gießen
 Göttingen
@@ -56,6 +59,7 @@ Osnabrück
 Paderborn
 Passau
 Pforzheim
+Potsdam
 Ravensburg
 Regensburg
 Reutlingen

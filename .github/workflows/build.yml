@@ -3,7 +3,7 @@ name: CI
 on: [push, pull_request]
 
 env:
-  TEXLIVE_VERSION: 2022
+  TEXLIVE_VERSION: 2021
   TERM: xterm
 
 jobs:
@@ -31,24 +31,24 @@ jobs:
           install_texlive -t $TEXLIVE_VERSION --collection='-a' --package-file tex-packages.txt -p $HOME/.local/texlive -v
           echo "$HOME/.local/texlive/$TEXLIVE_VERSION/bin/x86_64-linux" >> $GITHUB_PATH
 
-      - name: Install Montserrat Font
-        run: |
-          curl -Lo $HOME/montserrat.zip https://fonts.google.com/download?family=Montserrat
-          mkdir -p $HOME/.local/share/fonts
-          unzip -d $HOME/.local/share/fonts $HOME/montserrat.zip
-          fc-cache
-          fc-list 'Montserrat'
-          luaotfload-tool --update --force
-          luaotfload-tool --find='Montserrat'
-
       - name: Build
         run: |
           dbus-run-session python create_logos.py -n 2
+
+      - name: Build Page
+        # only run on main
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          python create_page.py
           zip -r ./s4f_all_logos.zip ./s4f_all_logos -x '*.zip'
           mv s4f_all_logos.zip s4f_all_logos
+          find s4f_all_logos -name "*.zip" -exec mv {} build \;
+          touch build/.nojekyll
 
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Deploy to gihub pages
+        # only run on main
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          files: s4f_all_logos/*.zip
+          folder: build
+          single-commit: true

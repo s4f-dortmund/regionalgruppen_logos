@@ -1,3 +1,4 @@
+from pathlib import Path
 import os
 import subprocess as sp
 import tempfile
@@ -8,7 +9,7 @@ parser = ArgumentParser()
 parser.add_argument('-n', '--n-parallel', type=int, default=1)
 
 
-OUTDIR = os.path.abspath('s4f_logos_')
+OUTDIR = Path('s4f_all_logos').absolute()
 MAX_LENGTH = 14
 
 head_logo = r'''
@@ -148,10 +149,10 @@ def build_banner(group, filename, groupdir, padding=False):
         create_all_formats(f.name, filename, groupdir, dpi=dpi)
 
 
-def build_all(group, suffix):
+def build_all(group, outdir_category):
     safe_name = sanitize_name(group)
 
-    groupdir = os.path.join(OUTDIR + suffix, 's4f_logos_' + safe_name)
+    groupdir = os.path.join(outdir_category, 's4f_logos_' + safe_name)
     os.makedirs(groupdir, exist_ok=True)
 
     build_logo(group, 's4f_logo_' + safe_name, groupdir)
@@ -159,7 +160,7 @@ def build_all(group, suffix):
     build_banner(group, 's4f_banner_padding_' + safe_name, groupdir, padding=True)
 
     zip_name = f's4f_logos_{safe_name}.zip'
-    sp.run(['zip', '-FSr', zip_name, os.path.basename(groupdir)], check=True, stdout=sp.PIPE, stderr=sp.STDOUT, cwd=OUTDIR + suffix)
+    sp.run(['zip', '-FSr', zip_name, os.path.basename(groupdir)], check=True, stdout=sp.PIPE, stderr=sp.STDOUT, cwd=outdir_category)
 
     return group
 
@@ -186,24 +187,28 @@ if __name__ == '__main__':
         fachgruppen,
     ]
 
-    suffixes = [
+    subfolders = [
         'regionalgruppen',
         'bundeslaender',
         'laender',
         'fachgruppen',
     ]
 
+    os.makedirs(OUTDIR, exist_ok=True)
+
     for ngroup in range(len(all_groups)):
         groups = all_groups[ngroup]
-        os.makedirs(OUTDIR + suffixes[ngroup], exist_ok=True)
+
+        outdir_group = os.path.join(OUTDIR, subfolders[ngroup])
+        os.makedirs(outdir_group, exist_ok=True)
 
         if args.n_parallel == 1:
             for group in groups:
                 print('Building', group)
-                build_all(group, suffixes[ngroup])
+                build_all(group, outdir_group)
                 print('Done')
         else:
             with ThreadPoolExecutor(args.n_parallel) as pool:
-                jobs = [pool.submit(build_all, group, suffixes[ngroup]) for group in groups]
+                jobs = [pool.submit(build_all, outdir_group]) for group in groups]
                 for job in as_completed(jobs):
                     print(job.result())
