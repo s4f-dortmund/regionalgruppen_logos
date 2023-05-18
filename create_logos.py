@@ -209,6 +209,6 @@ if __name__ == '__main__':
                 print('Done')
         else:
             with ThreadPoolExecutor(args.n_parallel) as pool:
-                jobs = [pool.submit(build_all, outdir_cat) for group in groups]
+                jobs = [pool.submit(build_all, group, outdir_cat) for group in groups]
                 for job in as_completed(jobs):
                     print(job.result())
