@@ -5,43 +5,49 @@ from create_logos import sanitize_name
 OUTDIR = Path('s4f_all_logos').absolute()
 
 
+categories = {
+    'laender': "Länder",
+    'bundeslaender': "Bundesländer",
+    'fachgruppen': "Fachgruppen",
+    'regionalgruppen': "Regionalgruppen",
+}
+
+edit_url = 'https://github.com/s4f-dortmund/regionalgruppen_logos/edit/main'
+
+
 
 if __name__ == "__main__":
-    with open('regionalgruppen.txt') as f:
-        regionalgruppen = [l.strip() for l in f]
 
-    with open('bundeslaender.txt') as f:
-        bundeslaender = [l.strip() for l in f]
+    groups = {}
+    for category in categories:
+        with open(f'{category}.txt') as f:
+            groups[category] = f.read().splitlines()
 
-    with open('laender.txt') as f:
-        laender = [l.strip() for l in f]
-
-    with open('fachgruppen.txt') as f:
-        fachgruppen = [l.strip() for l in f]
-
-    all_categories = [
-        regionalgruppen,
-        bundeslaender,
-        laender,
-        fachgruppen,
-    ]
 
     template = Path("./template.html").read_text()
     outputpath = Path("build")
     outputpath.mkdir(exist_ok=True)
 
     shutil.copy2(OUTDIR / "regionalgruppen/s4f_logos_dortmund/s4f_banner_dortmund.svg", outputpath)
-    
-    lines = []
+    group_lines = []
+    edit_lines = []
 
-    for ncat in range(len(all_categories)):
-        groups = all_categories[ncat]
+    for category, subgroups in groups.items():
+        category_label = categories[category]
 
-        for group in groups:
+        edit_lines.append(f'  <li><a target="_blank" href="{edit_url}/{category}.txt">')
+        edit_lines.append(f'    {category_label}: <code>{category}.txt</code>')
+        edit_lines.append(f'  </a></li>')
+
+        group_lines.append(f"<h4>{category_label}</h4>")
+        group_lines.append("<ul>")
+        for group in subgroups:
             name = sanitize_name(group)
-            lines.append(f'<li><a href="s4f_logos_{name}.zip">{group}</a></li>')
+            group_lines.append(f'<li><a href="s4f_logos_{name}.zip">{group}</a></li>')
+        group_lines.append("</ul>")
 
-        content = "<ul>\n" + "\n".join(lines) + "\n</ul>\n"
+    groups = "\n".join(group_lines)
+    editing = "\n".join(edit_lines)
 
-        with (outputpath / "index.html").open("w") as f:
-            f.write(template.replace("{% content %}", content))
+    with (outputpath / "index.html").open("w") as f:
+        f.write(template.replace("{% content %}", groups).replace("{% editing %}", editing))
