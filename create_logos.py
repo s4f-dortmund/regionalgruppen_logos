@@ -73,7 +73,6 @@ def pdf2png(stem, cwd=None, dpi=600):
         stem + '.pdf',
         f'--export-dpi={dpi}',
         '--export-area-page',
-        '--pages=1',
         '-o', name,
     ], cwd=cwd, stdout=sp.PIPE, stderr=sp.STDOUT, check=True)
     if not (cwd / name).is_file():
@@ -85,7 +84,6 @@ def pdf2svg(stem, cwd=None):
     sp.run([
         'inkscape',
         stem + '.pdf',
-        '--pages=1',
         '--export-text-to-path',
         '-o', name,
     ], cwd=cwd, stdout=sp.PIPE, stderr=sp.STDOUT, check=True)
@@ -99,7 +97,6 @@ def text_to_path(stem, cwd=None):
     sp.run([
         'inkscape',
         name,
-        '--pages=1',
         '--export-text-to-path',
         '-o', stem + '_ttp.pdf',
     ], cwd=cwd, check=True) #, stdout=sp.PIPE, stderr=sp.STDOUT, check=True)
