@@ -21,19 +21,18 @@ jobs:
           # install current version of inkscape
           sudo add-apt-repository -y ppa:inkscape.dev/stable
           sudo apt-get update -q
-          # curl for download, dbus-x11 fixes a lot of warnings from inkscape that
-          # cluttered the log
-          sudo apt-get install 'inkscape=1:1.2.2' curl dbus-x11 -y
+          sudo apt-get install inkscape -y
           inkscape --version
 
           # install texlive
           pip install https://github.com/MaxNoe/texlive-batch-installation/archive/main.tar.gz
           install_texlive -t $TEXLIVE_VERSION --collection='-a' --package-file tex-packages.txt -p $HOME/.local/texlive -v
           echo "$HOME/.local/texlive/$TEXLIVE_VERSION/bin/x86_64-linux" >> $GITHUB_PATH
+          rm -rf ~/.local/share/recently-used.xbel
 
       - name: Build
         run: |
-          dbus-run-session python create_logos.py -n 2
+          python create_logos.py -n 2
 
       - name: Build Page
         # only run on main
