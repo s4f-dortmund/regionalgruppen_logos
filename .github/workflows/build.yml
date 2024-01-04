@@ -23,7 +23,7 @@ jobs:
           sudo apt-get update -q
           # curl for download, dbus-x11 fixes a lot of warnings from inkscape that
           # cluttered the log
-          sudo apt-get install inkscape curl dbus-x11 -y
+          sudo apt-get install 'inkscape=1:1.2.2' curl dbus-x11 -y
           inkscape --version
 
           # install texlive
