@@ -23,7 +23,7 @@
 \nopagecolor
 \pagestyle{empty}
 
-\NewDocumentCommand \regionallogo {O{30} m} {%
+\NewDocumentCommand \grouplogo {O{30} m} {%
   \fontsize{30}{30}\selectfont%
   \begin{tikzpicture}%
     \fill[fill=white] (0, 0) circle (3.4cm);
@@ -67,7 +67,7 @@
 
 \newlength\namewidth
 
-\NewDocumentCommand \regionalbanner {s O{30} m m} {{%
+\NewDocumentCommand \groupbanner {s O{30} m m} {{%
   \fontsize{18}{18}\selectfont\bfseries%
   \newcommand\groupname{%
     \fontsize{24}{24}\selectfont\bfseries #3%
@@ -92,7 +92,7 @@
     \tikzset{padding/.style={fill=white, rounded corners}}
 
     \node[inner sep=0] (logo) at (1.2, 1.3) {%
-      \resizebox{2cm}{2cm}{\regionallogo[#2]{#4}}%
+      \resizebox{2cm}{2cm}{\grouplogo[#2]{#4}}%
     };
     \node[anchor=west, xshift=0.3em, yshift=0.5ex, text=darkBlue] (s4) at (logo.east) {\sff};
     \node[groupname] at (name) {\groupname};

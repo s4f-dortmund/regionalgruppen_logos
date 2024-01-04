@@ -1,3 +1,4 @@
+import shutil
 from pathlib import Path
 import os
 import subprocess as sp
@@ -50,10 +51,10 @@ def sanitize_name(name):
 def call_latex(source_file, out_dir, out_name):
     ret = sp.run([
         'lualatex',
-        '--output-directory=' + out_dir,
+        f'--output-directory={out_dir}',
         '--interaction=nonstopmode',
         '--halt-on-error',
-        '--jobname=' + out_name,
+        f'--jobname={out_name}',
         source_file,
     ], stdout=sp.PIPE, stderr=sp.STDOUT)
 
@@ -66,39 +67,40 @@ def call_latex(source_file, out_dir, out_name):
 
 
 def pdf2png(stem, cwd=None, dpi=600):
+    name = stem + '.png'
     sp.run([
         'inkscape',
         stem + '.pdf',
         f'--export-dpi={dpi}',
         '--export-area-page',
-        '-o', stem + '.png',
+        '-o', name,
     ], cwd=cwd, stdout=sp.PIPE, stderr=sp.STDOUT, check=True)
-    if not os.path.isfile(os.path.join(cwd, stem + '.png')):
+    if not (cwd / name).is_file():
         raise OSError('Call to inkscape failed')
 
 
 def pdf2svg(stem, cwd=None):
+    name = stem + '.svg'
     sp.run([
         'inkscape',
         stem + '.pdf',
         '--export-text-to-path',
-        '-o', stem + '.svg',
+        '-o', name,
     ], cwd=cwd, stdout=sp.PIPE, stderr=sp.STDOUT, check=True)
 
-    if not os.path.isfile(os.path.join(cwd, stem + '.svg')):
+    if not (cwd / name).is_file():
         raise OSError('Call to inkscape failed')
 
 
 def text_to_path(stem, cwd=None):
+    name = stem + '.pdf'
     sp.run([
         'inkscape',
-        stem + '.pdf',
+        name,
         '--export-text-to-path',
-        '-o', stem + '.pdf',
-    ], cwd=cwd, stdout=sp.PIPE, stderr=sp.STDOUT, check=True)
-
-    if not os.path.isfile(os.path.join(cwd, stem + '.pdf')):
-        raise OSError('Call to inkscape failed')
+        '-o', stem + '_ttp.pdf',
+    ], cwd=cwd, check=True) #, stdout=sp.PIPE, stderr=sp.STDOUT, check=True)
+    shutil.move(cwd / (stem + '_ttp.pdf'), cwd / name)
 
 
 def create_all_formats(source_file, filename, groupdir, dpi=600):
@@ -108,29 +110,29 @@ def create_all_formats(source_file, filename, groupdir, dpi=600):
     pdf2svg(filename, cwd=groupdir)
 
 
-def build_logo(regionalgruppe, filename, groupdir):
+def build_logo(group, filename, groupdir):
     '''
-    Create the logos for a regionalgroup by running
+    Create the logos for a group by running
     lualatex on a temporary file and then converting the
     resulting pdf to svg, png and pdf with text converted to path using inkscape.
     '''
     with tempfile.NamedTemporaryFile(mode='w') as f:
         f.write(head_logo)
 
-        if len(regionalgruppe) < MAX_LENGTH:
-            f.write(rf'\regionallogo{{{regionalgruppe.upper()}}}')
+        if len(group) < MAX_LENGTH:
+            f.write(rf'\grouplogo{{{group.upper()}}}')
         else:
-            size = 30 * MAX_LENGTH / len(regionalgruppe)
-            f.write(rf'\regionallogo[{size:.1f}]{{{regionalgruppe.upper()}}}')
+            size = 30 * MAX_LENGTH / len(group)
+            f.write(rf'\grouplogo[{size:.1f}]{{{group.upper()}}}')
 
         f.write(foot)
         f.flush()
         create_all_formats(f.name, filename, groupdir)
 
 
-def build_banner(regionalgruppe, filename, groupdir, padding=False):
+def build_banner(group, filename, groupdir, padding=False):
     '''
-    Create the logos for a regionalgroup by running
+    Create the logos for a group by running
     lualatex on a temporary file and then converting the
     resulting pdf to svg, png and pdf with text converted to path using inkscape.
     '''
@@ -138,9 +140,9 @@ def build_banner(regionalgruppe, filename, groupdir, padding=False):
         f.write(head_banner)
 
         p = '*' if padding else ''
-        size = min(30, 30 * MAX_LENGTH / len(regionalgruppe))
+        size = min(30, 30 * MAX_LENGTH / len(group))
 
-        f.write(rf'\regionalbanner{p}[{size:.1f}]{{{regionalgruppe}}}{{{regionalgruppe.upper()}}}')
+        f.write(rf'\groupbanner{p}[{size:.1f}]{{{group}}}{{{group.upper()}}}')
 
         f.write(foot)
         f.flush()
@@ -149,37 +151,46 @@ def build_banner(regionalgruppe, filename, groupdir, padding=False):
         create_all_formats(f.name, filename, groupdir, dpi=dpi)
 
 
-def build_all(regionalgruppe):
-    safe_name = sanitize_name(regionalgruppe)
+def build_all(group, outdir_category):
+    safe_name = sanitize_name(group)
 
-    groupdir = os.path.join(OUTDIR, 's4f_logos_' + safe_name)
-    os.makedirs(groupdir, exist_ok=True)
+    groupdir = outdir_category / ('s4f_logos_' + safe_name)
+    groupdir.mkdir(exist_ok=True)
 
-    build_logo(regionalgruppe, 's4f_logo_' + safe_name, groupdir)
-    build_banner(regionalgruppe, 's4f_banner_' + safe_name, groupdir)
-    build_banner(regionalgruppe, 's4f_banner_padding_' + safe_name, groupdir, padding=True)
+    build_logo(group, 's4f_logo_' + safe_name, groupdir)
+    build_banner(group, 's4f_banner_' + safe_name, groupdir)
+    build_banner(group, 's4f_banner_padding_' + safe_name, groupdir, padding=True)
 
     zip_name = f's4f_logos_{safe_name}.zip'
-    sp.run(['zip', '-FSr', zip_name, os.path.basename(groupdir)], check=True, stdout=sp.PIPE, stderr=sp.STDOUT, cwd=OUTDIR)
+    sp.run(['zip', '-FSr', zip_name, os.path.basename(groupdir)], check=True, stdout=sp.PIPE, stderr=sp.STDOUT, cwd=outdir_category)
 
-    return regionalgruppe
+    return group
 
 
 if __name__ == '__main__':
     args = parser.parse_args()
 
-    with open('regionalgruppen.txt') as f:
-        regionalgruppen = [l.strip() for l in f]
+    categories = [
+        'laender',
+        'bundeslaender',
+        'fachgruppen',
+        'regionalgruppen',
+    ]
 
-    os.makedirs(OUTDIR, exist_ok=True)
+    for category in categories:
+        with open(f'{category}.txt') as f:
+            groups = f.read().splitlines()
 
-    if args.n_parallel == 1:
-        for regionalgruppe in regionalgruppen:
-            print('Building', regionalgruppe)
-            build_all(regionalgruppe)
-            print('Done')
-    else:
-        with ThreadPoolExecutor(args.n_parallel) as pool:
-            jobs = [pool.submit(build_all, gruppe) for gruppe in regionalgruppen]
-            for job in as_completed(jobs):
-                print(job.result())
+        outdir = OUTDIR / category
+        outdir.mkdir(exist_ok=True, parents=True)
+
+        if args.n_parallel == 1:
+            for group in groups:
+                print('Building', category, group)
+                build_all(group, outdir)
+                print('Done')
+        else:
+            with ThreadPoolExecutor(args.n_parallel) as pool:
+                jobs = [pool.submit(build_all, group, outdir) for group in groups]
+                for job in as_completed(jobs):
+                    print(job.result())
