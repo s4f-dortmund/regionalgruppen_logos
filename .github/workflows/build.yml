@@ -3,7 +3,7 @@ name: CI
 on: [push, pull_request]
 
 env:
-  TEXLIVE_VERSION: 2022
+  TEXLIVE_VERSION: 2023
   TERM: xterm
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
           inkscape --version
 
           # install texlive
-          pip install https://github.com/MaxNoe/texlive-batch-installation/archive/main.tar.gz
+          pip install install-texlive
           install_texlive -t $TEXLIVE_VERSION --collection='-a' --package-file tex-packages.txt -p $HOME/.local/texlive -v
           echo "$HOME/.local/texlive/$TEXLIVE_VERSION/bin/x86_64-linux" >> $GITHUB_PATH
           rm -rf ~/.local/share/recently-used.xbel
