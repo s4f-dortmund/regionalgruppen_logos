@@ -3,37 +3,36 @@ name: CI
 on: [push, pull_request]
 
 env:
-  TEXLIVE_VERSION: 2021
+  TEXLIVE_VERSION: 2023
   TERM: xterm
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.9
+          python-version: "3.11"
 
       - name: Setup
         run: |
           # install current version of inkscape
-          sudo add-apt-repository -y ppa:inkscape.dev/stable
+          # sudo add-apt-repository -y ppa:inkscape.dev/stable
           sudo apt-get update -q
-          # curl for download, dbus-x11 fixes a lot of warnings from inkscape that
-          # cluttered the log
-          sudo apt-get install inkscape curl dbus-x11 -y
+          sudo apt-get install inkscape -y
           inkscape --version
 
           # install texlive
-          pip install https://github.com/MaxNoe/texlive-batch-installation/archive/master.tar.gz
+          pip install install-texlive
           install_texlive -t $TEXLIVE_VERSION --collection='-a' --package-file tex-packages.txt -p $HOME/.local/texlive -v
           echo "$HOME/.local/texlive/$TEXLIVE_VERSION/bin/x86_64-linux" >> $GITHUB_PATH
+          rm -rf ~/.local/share/recently-used.xbel
 
       - name: Build
         run: |
-          dbus-run-session python create_logos.py -n 2
+          python create_logos.py -n 2
 
       - name: Build Page
         # only run on main

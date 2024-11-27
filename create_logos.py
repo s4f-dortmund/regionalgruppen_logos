@@ -1,3 +1,4 @@
+import shutil
 from pathlib import Path
 import os
 import subprocess as sp
@@ -50,10 +51,10 @@ def sanitize_name(name):
 def call_latex(source_file, out_dir, out_name):
     ret = sp.run([
         'lualatex',
-        '--output-directory=' + out_dir,
+        f'--output-directory={out_dir}',
         '--interaction=nonstopmode',
         '--halt-on-error',
-        '--jobname=' + out_name,
+        f'--jobname={out_name}',
         source_file,
     ], stdout=sp.PIPE, stderr=sp.STDOUT)
 
@@ -66,39 +67,40 @@ def call_latex(source_file, out_dir, out_name):
 
 
 def pdf2png(stem, cwd=None, dpi=600):
+    name = stem + '.png'
     sp.run([
         'inkscape',
         stem + '.pdf',
         f'--export-dpi={dpi}',
         '--export-area-page',
-        '-o', stem + '.png',
+        '-o', name,
     ], cwd=cwd, stdout=sp.PIPE, stderr=sp.STDOUT, check=True)
-    if not os.path.isfile(os.path.join(cwd, stem + '.png')):
+    if not (cwd / name).is_file():
         raise OSError('Call to inkscape failed')
 
 
 def pdf2svg(stem, cwd=None):
+    name = stem + '.svg'
     sp.run([
         'inkscape',
         stem + '.pdf',
         '--export-text-to-path',
-        '-o', stem + '.svg',
+        '-o', name,
     ], cwd=cwd, stdout=sp.PIPE, stderr=sp.STDOUT, check=True)
 
-    if not os.path.isfile(os.path.join(cwd, stem + '.svg')):
+    if not (cwd / name).is_file():
         raise OSError('Call to inkscape failed')
 
 
 def text_to_path(stem, cwd=None):
+    name = stem + '.pdf'
     sp.run([
         'inkscape',
-        stem + '.pdf',
+        name,
         '--export-text-to-path',
-        '-o', stem + '.pdf',
-    ], cwd=cwd, stdout=sp.PIPE, stderr=sp.STDOUT, check=True)
-
-    if not os.path.isfile(os.path.join(cwd, stem + '.pdf')):
-        raise OSError('Call to inkscape failed')
+        '-o', stem + '_ttp.pdf',
+    ], cwd=cwd, check=True) #, stdout=sp.PIPE, stderr=sp.STDOUT, check=True)
+    shutil.move(cwd / (stem + '_ttp.pdf'), cwd / name)
 
 
 def create_all_formats(source_file, filename, groupdir, dpi=600):
@@ -152,8 +154,8 @@ def build_banner(group, filename, groupdir, padding=False):
 def build_all(group, outdir_category):
     safe_name = sanitize_name(group)
 
-    groupdir = os.path.join(outdir_category, 's4f_logos_' + safe_name)
-    os.makedirs(groupdir, exist_ok=True)
+    groupdir = outdir_category / ('s4f_logos_' + safe_name)
+    groupdir.mkdir(exist_ok=True)
 
     build_logo(group, 's4f_logo_' + safe_name, groupdir)
     build_banner(group, 's4f_banner_' + safe_name, groupdir)
@@ -168,47 +170,27 @@ def build_all(group, outdir_category):
 if __name__ == '__main__':
     args = parser.parse_args()
 
-    with open('regionalgruppen.txt') as f:
-        regionalgruppen = [l.strip() for l in f]
-
-    with open('bundeslaender.txt') as f:
-        bundeslaender = [l.strip() for l in f]
-
-    with open('laender.txt') as f:
-        laender = [l.strip() for l in f]
-
-    with open('fachgruppen.txt') as f:
-        fachgruppen = [l.strip() for l in f]
-
-    all_categories = [
-        regionalgruppen,
-        bundeslaender,
-        laender,
-        fachgruppen,
-    ]
-
-    subfolders = [
-        'regionalgruppen',
-        'bundeslaender',
+    categories = [
         'laender',
+        'bundeslaender',
         'fachgruppen',
+        'regionalgruppen',
     ]
 
-    os.makedirs(OUTDIR, exist_ok=True)
+    for category in categories:
+        with open(f'{category}.txt') as f:
+            groups = f.read().splitlines()
 
-    for ncat in range(len(all_categories)):
-        groups = all_categories[ncat]
-
-        outdir_cat = os.path.join(OUTDIR, subfolders[ncat])
-        os.makedirs(outdir_cat, exist_ok=True)
+        outdir = OUTDIR / category
+        outdir.mkdir(exist_ok=True, parents=True)
 
         if args.n_parallel == 1:
             for group in groups:
-                print('Building', group)
-                build_all(group, outdir_cat)
+                print('Building', category, group)
+                build_all(group, outdir)
                 print('Done')
         else:
             with ThreadPoolExecutor(args.n_parallel) as pool:
-                jobs = [pool.submit(build_all, group, outdir_cat) for group in groups]
+                jobs = [pool.submit(build_all, group, outdir) for group in groups]
                 for job in as_completed(jobs):
                     print(job.result())
